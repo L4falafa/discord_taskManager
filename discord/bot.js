@@ -26,6 +26,11 @@ for (const file of commandFiles) {
 client.once('ready', () => {
     console.log('Bot ready!');
     createDbJsonFirstTime();
+    
+
+      await dbJson.getTasks();
+  
+   
 });
 
 // escuchando mensajes
@@ -54,13 +59,15 @@ const createDbJsonFirstTime = () =>{
     if(fs.existsSync('../discord/database/dbdTasks.json'))return;
     
     let task1Template = [{
-        author: "317332505168707594",
-        name: "Tarea1",
-        description: "Example of a Task",
-        startDate: "10/4/2021",
-        endDate: "17/4/2021"
+        author: '317332505168707594',
+        name: 'Tarea1',
+        description: 'Example of a Task',
+        startDate: '10/4/2021',
+        endDate: '17/4/2021'
     }];
-    var stringToJson = JSON.stringify(task1Template);
+    var stringToJson = JSON.stringify(task1Template, undefined, 4);
+    //var stringToJson = JSON.stringify(task1Template);
+    
     dbJson.createJsonFile('../discord/database','dbdTasks',stringToJson);
     
 };

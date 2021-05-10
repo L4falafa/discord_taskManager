@@ -1,20 +1,17 @@
+const { Console } = require('console');
 const fs = require('fs');
+const task = require('../commands/task');
 const path = '../discord/database';
-
+let name = 'dbdTasks'
 
 
 module.exports = {
     
     createJsonFile: (path,name, data = '') =>  {
 
-        let task1Template = [{
-            author: "317332505168707594",
-            name: "Tarea1",
-            description: "Example of a Task",
-            startDate: "10/4/2021",
-            endDate: "17/4/2021"
-        }];
-
+  
+        this.name = name;
+       
         fs.writeFile(`${path}/${name}.json`, data, function(err, result) {
             if(err) console.log('error', err);
         });
@@ -27,16 +24,21 @@ module.exports = {
             if(err) console.log('error', err);
         });
     },
-    getTasks: (nameFile) => {
-        fs.readFile(`${path}/${name}.json`, 'utf8', (err, jsonString) => {
+    getTasks: () => {
+        fs.read(`${path}/${name}.json`, 'utf8', (err, jsonString) => {
             if (err) {
                 console.log("File read failed:", err)
                 return
             }
-
-            return JSON.parse(jsonString);
+            let tasks = JSON.parse(jsonString);
+           // console.log("xd");
+            // console.log(tasks)
+            return tasks;
             
-        })
+        }).then(x => {
+            console.log(x);
+        });
+      
     }
     
 };

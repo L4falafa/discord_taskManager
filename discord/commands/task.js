@@ -20,7 +20,8 @@ module.exports = {
             task1.author = message.author;
             task1.name = args[0];
             task1.description = args[1];
-            task1.endDate = new Date(Date.prototype.getFullYear, Date.prototype.getMonth, Date.prototype.getDay, Date.prototype.getHours, Date.prototype.getMinutes, Date.prototype.getSeconds, Date.prototype.getMilliseconds);;
+            task1.endDate = Date.now + new Date(0,0,10,0,0,0,0);
+            //task1.endDate = new Date(Date.prototype.getFullYear, Date.prototype.getMonth, Date.prototype.getDay, Date.prototype.getHours, Date.prototype.getMinutes, Date.prototype.getSeconds, Date.prototype.getMilliseconds);
         }
         
     }
