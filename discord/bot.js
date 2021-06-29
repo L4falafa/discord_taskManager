@@ -49,8 +49,8 @@ client.on('message', message => {
  
     
 
-    if (command === 'task') {
-        client.commands.get('task').execute(message, args, client);
+    if (command === 'createtask'||command === 'ctask'||command === 'ct') {
+        client.commands.get('createtask').execute(message, args, client);
     }
     else if (command === 'shoot') {
         client.commands.get('shoot').execute(message, args);
