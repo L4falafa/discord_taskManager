@@ -7,6 +7,7 @@ const fs = require('fs')
 
 // import config file
 const config = require('./config.json');
+const { Console } = require('console');
 
 // creando el cliente de Discord
 const client = new Discord.Client();
@@ -26,11 +27,15 @@ for (const file of commandFiles) {
 client.once('ready', () => {
     console.log('Bot ready!');
     createDbJsonFirstTime();
-    
-
-      await dbJson.getTasks();
-  
-   
+ 
+    let task1Template = {
+        author: '317332505168707594',
+        name: 'Tarea2',
+        description: 'Example of a Task',
+        startDate: '10/4/2021',
+        endDate: '17/4/2021'
+    };  
+     
 });
 
 // escuchando mensajes
@@ -41,7 +46,7 @@ client.on('message', message => {
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
-
+ 
     
 
     if (command === 'task') {
