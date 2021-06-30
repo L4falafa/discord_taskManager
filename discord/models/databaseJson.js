@@ -141,7 +141,7 @@ module.exports = {
 
         fs.writeFile(`${path}/${userId}.json`,  JSON.stringify(tasks, undefined, 4), function(err, result) {
                if(err) console.log('error', err);        
-               console.log("Saved Taskk");
+               console.log("Saved Task");
            }); 
   
     },

@@ -36,11 +36,20 @@ client.on('message', message => {
     if(message.author.id == client.user.id && message.embeds.length != 0)
     {
         var embed = message.embeds[0];
-        if(embed.title != "Tasks Manager")return;
+        if(embed.title == "Tasks Manager")
+        {
         message.react('◀️');
         message.react('▶️');
-        collectorReaction.startCollector(message);
+        collectorReaction.startCollectorNavegation(message);
+        }else if(embed.title == "Info Task")
+        {
+            message.react('🇽');
+            collectorReaction.startCollectorTask(message);
+        }
+        
     }   
+
+    if(message.author.id == client.user.id && message.content[0] == '|')message.delete({timeout:3000})
     if (!message.content.startsWith(config.prefix)) return;
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
@@ -54,7 +63,10 @@ client.on('message', message => {
     else if(command === 'removetask'||command === 'rtask'||command === 'rt'){
         client.commands.get('removetask').execute(message, args, client);
     }
-    
+    else if(command === 'gettask'||command === 'infotask'||command === 'gtask'||command === 'it'){
+        client.commands.get('gettask').execute(message, args, client);
+    }
+
 });
 
 

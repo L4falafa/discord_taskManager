@@ -20,7 +20,7 @@ module.exports = {
 
         let endIndex = 0;
         //slices the first page of tasks
-        userTasks.length <= 6 ? endIndex = userTasks.length % 6  : endIndex = 6;
+        userTasks.length < 6 ? endIndex = userTasks.length % 6  : endIndex = 6;
         
         let pageOneTask = userTasks.slice(0,endIndex);
 
@@ -38,7 +38,7 @@ module.exports = {
         const exampleEmbed = new Discord.MessageEmbed()
             .setColor('#4A90E2')
             .setAuthor(message.member.user.username,message.author.avatarURL())
-            .setFooter(`1-${parseInt(userTasks.length/6)} | ${message.author.id}`)
+            .setFooter(`1-${parseInt(Math.ceil(userTasks.length/6))} | ${message.author.id}`)
             .addFields(embedFields)
             .setTitle('Tasks Manager');
         
