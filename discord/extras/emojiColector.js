@@ -54,7 +54,7 @@ async function startCollector(message){
             let endIndex = 1;
             // pagina * 6  = index inicio --- index final =  pagin + 6 > arr.lenght ?  indexf = pagina+6 : indexf = pagina + arr.lengh % 6
              //slices the first page of tasks endIndex = userTasks.length % 6 
-            pageTask+6 > userTasks.length%6+pageTask ? endIndex = (pageTask *6) + (userTasks.length % 6) : endIndex = pageTask*6;
+            (pageTask-1)*6+ userTasks.length%6 > userTasks.length ? endIndex = (pageTask *6) + (userTasks.length % 6) : endIndex = pageTask*6;
             let pageOneTask = userTasks.slice((pageTask - 1)*6,endIndex);
 
             //creates tasks fields
