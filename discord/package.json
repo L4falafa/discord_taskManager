@@ -7,13 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
-    "ignore": ["C:/Users/antuS/Desktop/JS/Discord/discord_taskManager/discord/database/*.json"]
+    "ignore": [
+      "C:/Users/antuS/Desktop/JS/Discord/discord_taskManager/discord/database/*.json"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.1",
+    "nodemon": "^2.0.9",
     "select-random-file": "^1.1.0"
   }
 }

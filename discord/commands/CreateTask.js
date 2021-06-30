@@ -1,14 +1,15 @@
-const dbJson = require('../database/databaseJson.js');
+const dbJson = require('../models/databaseJson.js');
 const Discord = require('discord.js');
 const replyDs = require('../extras/replyMessages.js')
-//import * as dbJson from 'C:/Users/antuS/Desktop/JS/Discord/discord_taskManager/discord/database/databaseJson.js';
+const config = require('../config.json');
 
+//module command to the creation of a new task and save them
 module.exports = {
     name: 'createtask',
     description: 'reply to user hi' ,
     execute(message, args, client) {
          
-        
+        //template to the task
         let task1 = {
             author: "",
             name: "",
@@ -17,26 +18,29 @@ module.exports = {
             endDate: new Date()
         };
 
+        //checking if command is valid
         if(args.length < 3  || isNaN(args[1]))
         {
             message.reply(replyDs.BadSyntax(this.name));          
             return;
         };
-    
+        
+        //change values of the template
             task1.author = message.author.id;
             task1.name = args[0];
-            let indexStart =  args[0].length+args[1].length+8;
-            task1.description = (message.content).substring(indexStart);
+            let indexStart =  args[0].length+args[1].length+message.content.trim().split(/ +/,1)[0].length+3;
+            task1.description = message.content.slice(indexStart);
             task1.endDate = addDays(parseInt(args[1]),task1.endDate);
-            //task1.endDate = new Date(Date.prototype.getFullYear, Date.prototype.getMonth, Date.prototype.getDay, Date.prototype.getHours, Date.prototype.getMinutes, Date.prototype.getSeconds, Date.prototype.getMilliseconds);
-         
+        
+        //pull the task to the json document
             dbJson.pullDBJsonTask(task1)
-                .then(()=>  {message.reply(""+replyDs.SuccessfulyAddTask(task1.name, task1.endDate.getDate()))})
+                .then(()=>  {message.reply(""+replyDs.SuccessfulyAddTask(task1.name, `${task1.endDate.getDay()}/${task1.endDate.getMonth()}/${task1.endDate.getFullYear()}`))})
                 .catch(err => message.reply(""+err));
                         
     }
 }
-/*  dbdJson.pullDBJsonTask(task1); */
+
+//add days to the date
 const addDays = (days, date)=>
 {
 Date.prototype.addDays = function (day) {

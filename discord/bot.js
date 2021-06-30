@@ -1,6 +1,6 @@
 // import discord.js librery
 const Discord = require('discord.js');
-const dbJson = require('../discord/database/databaseJson.js')
+const dbJson = require('../discord/models/databaseJson.js')
 // import javascript files
 
 const fs = require('fs')
@@ -8,6 +8,8 @@ const fs = require('fs')
 // import config file
 const config = require('./config.json');
 const { Console } = require('console');
+
+const collectorReaction = require('../discord/extras/emojiColector.js');
 
 // creando el cliente de Discord
 const client = new Discord.Client();
@@ -22,59 +24,39 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-// cuando el cliente esta ready, ejecuta este codigo
-// este evento se va a ejecutar una sola vez al inciarse el bot
+
+// when client is ready the code below will execute, only once time
 client.once('ready', () => {
     console.log('Bot ready!');
-    createDbJsonFirstTime();
- 
-    let task1Template = {
-        author: '317332505168707594',
-        name: 'Tarea2',
-        description: 'Example of a Task',
-        startDate: '10/4/2021',
-        endDate: '17/4/2021'
-    };  
-     
 });
 
-// escuchando mensajes
+// listening messages
 client.on('message', message => {
     console.log(message.content);
-    
-    if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+    if(message.author.id == client.user.id && message.embeds.length != 0)
+    {
+        var embed = message.embeds[0];
+        if(embed.title != "Tasks Manager")return;
+        message.react('◀️');
+        message.react('▶️');
+        collectorReaction.startCollector(message);
+    }   
+    if (!message.content.startsWith(config.prefix)) return;
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
- 
-    
-
     if (command === 'createtask'||command === 'ctask'||command === 'ct') {
         client.commands.get('createtask').execute(message, args, client);
     }
-    else if (command === 'shoot') {
-        client.commands.get('shoot').execute(message, args);
+    else if(command === 'gettasks'||command === 'gtask'||command === 'gt'){
+        client.commands.get('gettasks').execute(message, args, client);
     }
-    else if (command === 'punch') {
-        client.commands.get('punch').execute(message, args);
+    else if(command === 'removetask'||command === 'rtask'||command === 'rt'){
+        client.commands.get('removetask').execute(message, args, client);
     }
+    
 });
 
-const createDbJsonFirstTime = () =>{
-    if(fs.existsSync('../discord/database/dbdTasks.json'))return;
-    
-    let task1Template = [{
-        author: '317332505168707594',
-        name: 'Tarea1',
-        description: 'Example of a Task',
-        startDate: '10/4/2021',
-        endDate: '17/4/2021'
-    }];
-    var stringToJson = JSON.stringify(task1Template, undefined, 4);
-    //var stringToJson = JSON.stringify(task1Template);
-    
-    dbJson.createJsonFile('../discord/database','dbdTasks',stringToJson);
-    
-};
+
 // logeo del bot en Discord con el token de autenticacion
 client.login(config.token);
