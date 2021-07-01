@@ -1,6 +1,7 @@
 const dbJson = require('../models/databaseJson.js');
 const Discord = require('discord.js'); 
-const replyDs = require('../extras/replyMessages.js')
+const replyDs = require('../extras/replyMessages.js');
+const dayjs = require('dayjs');
 
 //module command to get first page of tasks and set the message to navigate trough
 module.exports = {
@@ -24,8 +25,8 @@ module.exports = {
             .setFooter(`${message.author.id}`)
             .addField('Name', task.name)
             .addField('Description:', task.description, false)
-            .addField('Start Date',`${new Date(task.startDate).getDay()}/${new Date(task.startDate).getMonth()}/${new Date(task.startDate).getFullYear()}`, true)
-            .addField('End Date',`${new Date(task.endDate).getDay()}/${new Date(task.endDate).getMonth()}/${new Date(task.endDate).getFullYear()}`, true)
+            .addField('Start Date',dayjs(task.startDate).format('YYYY-MM-DD'), true)
+            .addField('End Date',dayjs(task.endDate).format('YYYY-MM-DD'), true)
             .setTitle('Info Task');
         
         //send embed to channel

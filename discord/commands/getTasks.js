@@ -1,7 +1,7 @@
 const dbJson = require('../models/databaseJson.js');
 const Discord = require('discord.js'); 
 const replyDs = require('../extras/replyMessages.js')
-
+const dayjs = require('dayjs');
 //module command to get first page of tasks and set the message to navigate trough
 module.exports = {
     name: 'gettasks',
@@ -28,9 +28,9 @@ module.exports = {
         let embedFields = [];
         pageOneTask.forEach(x=>
         {
-            embedFields.push(field ={
+            embedFields.push(field ={   
                 name: x.name,
-                value: `Start: **${new Date(x.startDate).getDay()}/${new Date(x.startDate).getMonth()}/${new Date(x.startDate).getFullYear()}** \n End: **${new Date(x.endDate).getDay()}/${new Date(x.endDate).getMonth()}/${new Date(x.endDate).getFullYear()}**`,
+                value: `Start: **${dayjs(x.startDate).format('YYYY-MM-DD')}** \n End: **${dayjs(x.endDate).format('YYYY-MM-DD')}**`,
                 inline: true
             })
         });

@@ -10,6 +10,8 @@ const config = require('./config.json');
 const { Console } = require('console');
 
 const collectorReaction = require('../discord/extras/emojiColector.js');
+const {warnTaskIsUnderAWeek} = require('./extras/dateSnipshot.js');
+const { getTasks } = require('../discord/models/databaseJson.js');
 
 // creando el cliente de Discord
 const client = new Discord.Client();
@@ -27,7 +29,11 @@ for (const file of commandFiles) {
 
 // when client is ready the code below will execute, only once time
 client.once('ready', () => {
-    console.log('Bot ready!');
+    console.log('Bot ready!');  
+    dbJson.getTasksUnderAWeekDate().then(tasks=> {warnTaskIsUnderAWeek(tasks,client)});
+    setInterval(() => {
+        dbJson.getTasksUnderAWeekDate().then(tasks=> {warnTaskIsUnderAWeek(tasks,client)});
+      },43200000);
 });
 
 // listening messages
@@ -47,7 +53,8 @@ client.on('message', message => {
             collectorReaction.startCollectorTask(message);
         }
         
-    }   
+    } 
+
 
     if(message.author.id == client.user.id && message.content[0] == '|')message.delete({timeout:3000})
     if (!message.content.startsWith(config.prefix)) return;

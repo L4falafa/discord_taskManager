@@ -1,93 +1,16 @@
 [
     {
         "author": "317332505168707594",
-        "name": "prueba1",
-        "description": "dsadsadsadsad sad sad  sad sa",
-        "startDate": "2021-06-30T23:27:00.134Z",
-        "endDate": "2021-07-10T23:27:00.134Z"
+        "name": "Jaja",
+        "description": "sadasdsad",
+        "startDate": "2021-07-01T22:28:11.680Z",
+        "endDate": "2021-07-16"
     },
     {
         "author": "317332505168707594",
-        "name": "prueba2",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:27:48.498Z",
-        "endDate": "2021-07-03T23:27:48.498Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba3",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:03.132Z",
-        "endDate": "2021-07-03T23:28:03.132Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba4",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:06.009Z",
-        "endDate": "2021-07-03T23:28:06.009Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba5",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:08.586Z",
-        "endDate": "2021-07-03T23:28:08.586Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba6",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:11.316Z",
-        "endDate": "2021-07-03T23:28:11.316Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba7",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:27.089Z",
-        "endDate": "2021-07-03T23:28:27.089Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba8",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:30.433Z",
-        "endDate": "2021-07-03T23:28:30.433Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba9",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:33.313Z",
-        "endDate": "2021-07-03T23:28:33.313Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba3",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:03.132Z",
-        "endDate": "2021-07-03T23:28:03.132Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba4",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:06.009Z",
-        "endDate": "2021-07-03T23:28:06.009Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba5",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:08.586Z",
-        "endDate": "2021-07-03T23:28:08.586Z"
-    },
-    {
-        "author": "317332505168707594",
-        "name": "prueba6",
-        "description": "DSADSADSADSADSA",
-        "startDate": "2021-06-30T23:28:11.316Z",
-        "endDate": "2021-07-03T23:28:11.316Z"
+        "name": "Epico",
+        "description": "Douuuu",
+        "startDate": "2021-07-01T23:07:38.507Z",
+        "endDate": "2021-07-04"
     }
 ]

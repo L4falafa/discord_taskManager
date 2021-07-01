@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { REPLServer } = require('repl');
 const path = '../discord/database';
 const errorMessage = require('../extras/replyMessages.js');
+const dayjs = require('dayjs');
 
 async function fileExists (path) {  
     let myPromise = new Promise(function(result) {
@@ -20,8 +21,7 @@ async function fileExists (path) {
 async function readFilePromise (name = "path"){
     let myPromise = new Promise(function(result) {
         fs.readFile(`${path}/${name}.json`,'utf8',(err, data)=>{     
-            if(err)throw err;
-            //{throw new Error(errorMessage.UserHaveNotTask)}   
+            if(err){throw new Error(errorMessage.UserHaveNotTask)}   
             result(data);  
         });
     });
@@ -73,7 +73,7 @@ async function getTaskByName (userId, name) {
     var task = null;
     let dbTasks = await getTasks(userId);
     dbTasks.forEach(x => {
-        if(x.name == name) 
+        if(x.name.toLowerCase() == name.toLowerCase()) 
         {
             task = x;}
     });
@@ -132,7 +132,7 @@ module.exports = {
         var tasks = await getTasks(userId);
 
         for (let index = 0; index < tasks.length; index++) {
-            if(tasks[index].name == name)
+            if(tasks[index].name.toLowerCase() == name.toLowerCase())
             {
                 tasks.splice(index,1);
             }
@@ -144,6 +144,29 @@ module.exports = {
                console.log("Saved Task");
            }); 
   
+    },
+    getTasksUnderAWeekDate: async () =>
+    {   
+        
+        const users =  fs.readdirSync('./database',()=>{}).filter(file => file.endsWith('.json'));
+        let taskNExpired = [];
+ 
+                for (let x of users) {
+
+                    let tasks = await getTasks(x.substring(0, x.length-5));
+                    
+                    for (const task of tasks) {
+                        if(dayjs(task.endDate).diff(new Date(), 'day') <= 7)
+                        {
+                            taskNExpired.push(task);                    
+                        }
+                    }                
+                }
+                
+               
+
+
+        return await taskNExpired;
     },
     getTasks
     
