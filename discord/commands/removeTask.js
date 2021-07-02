@@ -5,7 +5,7 @@ const replyDs = require('../extras/replyMessages.js')
 //module command to the remove of a task
 module.exports = {
     name: 'removetask',
-    description: 'reply to user hi' ,
+    description: 'removes task' ,
     async execute(message, args, client) {
         console.log("xd");
         if(args.length!=1){message.reply(""+replyDs.BadSyntax(this.name));return;}
@@ -18,3 +18,8 @@ module.exports = {
         
     }
 };
+
+module.exports.help = {
+    name: "removetask",
+    aliases: ['rt', 'rtask'],
+}

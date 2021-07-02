@@ -5,7 +5,7 @@ const dayjs = require('dayjs');
 //module command to get first page of tasks and set the message to navigate trough
 module.exports = {
     name: 'gettasks',
-    description: 'reply to user hi' ,
+    description: 'Sends a embed with all your tasks \n**!gt**' ,
     async execute(message, args, client) {
         if(args.length>0){message.reply(replyDs.BadSyntax(this.name));return;}
         let userTasks = [] 
@@ -48,3 +48,8 @@ module.exports = {
         
     }
 };
+
+module.exports.help = {
+    name: "gettasks",
+    aliases: ['gt', 'gtasks'],
+}

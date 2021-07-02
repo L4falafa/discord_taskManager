@@ -16,20 +16,28 @@ const { getTasks } = require('../discord/models/databaseJson.js');
 // creando el cliente de Discord
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
 
     // set a new item in the Collection
     // with the key as the command name and the value as the exported module
-
-    client.commands.set(command.name, command);
+    client.commands.set(command.help.name, command);
+    command.help.aliases.forEach(alias => {
+        client.aliases.set(alias, command.help.name);
+    });
 }
 
 
 // when client is ready the code below will execute, only once time
 client.once('ready', () => {
     console.log('Bot ready!');  
+    client.user.setStatus('dnd');
+    //client.user.
+    client.user.setActivity(`${config.prefix}help < ct | gt | it >\n If the task end date is under a week the bot will warn you`, {
+        type: 'PLAYING'
+      });
     dbJson.getTasksUnderAWeekDate().then(tasks=> {warnTaskIsUnderAWeek(tasks,client)});
     setInterval(() => {
         dbJson.getTasksUnderAWeekDate().then(tasks=> {warnTaskIsUnderAWeek(tasks,client)});
@@ -38,9 +46,9 @@ client.once('ready', () => {
 
 // listening messages
 client.on('message', message => {
-    console.log(message.content);
     if(message.author.id == client.user.id && message.embeds.length != 0)
     {
+
         var embed = message.embeds[0];
         if(embed.title == "Tasks Manager")
         {
@@ -63,22 +71,20 @@ client.on('message', message => {
     if (!message.content.startsWith(config.prefix)) return;
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-    const command = args.shift().toLowerCase();
-    if (command === 'createtask'||command === 'ctask'||command === 'ct') {
-        client.commands.get('createtask').execute(message, args, client);
-    }
-    else if(command === 'gettasks'||command === 'gtask'||command === 'gt'){
-        client.commands.get('gettasks').execute(message, args, client);
-    }
-    else if(command === 'removetask'||command === 'rtask'||command === 'rt'){
-        client.commands.get('removetask').execute(message, args, client);
-    }
-    else if(command === 'gettask'||command === 'infotask'||command === 'gtask'||command === 'it'){
-        client.commands.get('gettask').execute(message, args, client);
-    }
+    const commandName = args.shift().toLowerCase();
+
+    let command;
+    if(client.commands.has(commandName))
+    {
+            command = client.commands.get(commandName);
+    }else{
+        command = client.commands.get(client.aliases.get(commandName));
+    }   
+    if(command)command.execute(message, args, client);
+   
 
 });
-
+//c
 
 // logeo del bot en Discord con el token de autenticacion
 client.login(config.token);

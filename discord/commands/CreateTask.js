@@ -7,7 +7,7 @@ const dayjs = require('dayjs')
 //module command to the creation of a new task and save them
 module.exports = {
     name: 'createtask',
-    description: 'reply to user hi' ,
+    description: 'Creates a new task and sets a end date \n!ctask **<Name> <Add Days To Date> <Description>** \n!ctask ExampleTask 43 Example Task Description' ,
     execute(message, args, client) {
          
         //template to the task
@@ -40,5 +40,10 @@ module.exports = {
                 .catch(err => message.reply(""+err));
                         
     }
+}
+
+module.exports.help = {
+    name: "createtask",
+    aliases: ['ct', 'ctask'],
 }
 

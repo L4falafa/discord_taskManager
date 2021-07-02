@@ -6,7 +6,7 @@ const dayjs = require('dayjs');
 //module command to get first page of tasks and set the message to navigate trough
 module.exports = {
     name: 'gettask',
-    description: 'reply to user hi' ,
+    description: 'Gets all info from one of your tasks\n!gt **<Name>**' ,
     async execute(message, args, client) {
 
         if(args.length != 1){message.reply(replyDs.BadSyntax(this.name));return;}
@@ -34,3 +34,8 @@ module.exports = {
         
     }
 };
+
+module.exports.help = {
+    name: "gettask",
+    aliases: ['it', 'gtask'],
+}
