@@ -5,6 +5,7 @@ const path = '../discord/database';
 const errorMessage = require('../extras/replyMessages.js');
 const dayjs = require('dayjs');
 
+
 async function fileExists (path) {  
     let myPromise = new Promise(function(result) {
         fs.access(path, (err) => {
@@ -52,6 +53,7 @@ async function noExistCreate (userId, task = ' ')
             author: userId,
             name: "SampleTask",
             description: "Delete it with !rtask Sample Task",
+            status: false,
             startDate: new Date(),
             endDate: new Date()
         };
@@ -155,9 +157,10 @@ module.exports = {
 
                     let tasks = await getTasks(x.substring(0, x.length-5));
                     
-                    for (const task of tasks) {
-                        if(dayjs(task.endDate).diff(new Date(), 'day') <= 7)
-                        {
+                    for (const task of tasks) {     
+                       
+                        if(dayjs(task.endDate).diff(dayjs(), 'day') <= 7 || dayjs(task.endDate) < dayjs())
+                        {                 
                             taskNExpired.push(task);                    
                         }
                     }                

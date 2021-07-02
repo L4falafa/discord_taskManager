@@ -50,12 +50,15 @@ client.on('message', message => {
         }else if(embed.title == "Info Task")
         {
             message.react('🇽');
-            collectorReaction.startCollectorTask(message);
+            message.react('🆗');            
+            message.channel.type === 'dm' ?
+            collectorReaction.startCollectorTaskDm(message)
+            :collectorReaction.startCollectorTask(message);
         }
         
-    } 
+    }  
 
-
+    if(message.channel.type === 'dm')return;
     if(message.author.id == client.user.id && message.content[0] == '|')message.delete({timeout:3000})
     if (!message.content.startsWith(config.prefix)) return;
 

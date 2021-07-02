@@ -1,21 +1,69 @@
 const dbJson = require('../models/databaseJson.js');
 const Discord = require('discord.js'); 
 const replyDs = require('../extras/replyMessages.js')
+const dayjs = require('dayjs');
+
 const emojiUnicodeForward = '▶️';
 const emojiUnicodeBackward = '◀️';
 const emojiUnicodeCross = '🇽';
+const emojiOk = '🆗';
 
 function startCollectorTask(message){
     var userId = message.embeds[0].footer.text.trim();
     const filter = (reaction, user) => {
-        return (reaction.emoji.name === emojiUnicodeCross &&  user.id === userId);
+        return ((reaction.emoji.name === emojiUnicodeCross || reaction.emoji.name === emojiOk) &&  user.id === userId);
     };
-    
     const collector = message.createReactionCollector(filter, { time: 15000 });
+    collector.on('collect', (reaction, user) => { 
+        var taskName = message.embeds[0].fields[0].value.trim();
+        if(reaction.emoji.name == emojiUnicodeCross) 
+        { 
+            message.reactions.resolve(emojiUnicodeCross).users.remove(userId.toString());
+            dbJson.removeTask(userId,taskName).then(message.channel.send("|"+replyDs.SuccessfulyDeletedTask(taskName)));
+        }else if(reaction.emoji.name == emojiOk){ 
+
+            message.reactions.resolve(emojiOk).users.remove(userId.toString());
+    
+            dbJson.getTaskByName(userId,taskName).then((task)=>{ 
+                task.status = true; 
+                dbJson.removeTask(userId,taskName)
+                .then(()=>{ 
+                    dbJson.pullDBJsonTask(task);
+                    message.edit(message.embeds[0].setColor('17D100'))
+                });
+            });
+
+           
+
+        }
+    })  
+};
+
+function startCollectorTaskDm(message){
+    var userId = message.embeds[0].footer.text.trim();
+    const filter = (reaction, user) => {
+        return ((reaction.emoji.name === emojiUnicodeCross || reaction.emoji.name === emojiOk) &&  user.id === userId);
+    }; 
+    const collector = message.createReactionCollector(filter, { time: 30000 });
     collector.on('collect', (reaction, user) => {
-        message.reactions.resolve(emojiUnicodeCross).users.remove(userId.toString());
-        dbJson.removeTask(user.id,message.embeds[0].fields[0].value.trim()).then(message.channel.send("|"+replyDs.SuccessfulyDeletedTask(message.embeds[0].fields[0].value.trim())));
-    })
+        var taskName = message.embeds[0].fields[0].value.trim();
+        if(reaction.emoji.name == emojiUnicodeCross) 
+        {    
+            dbJson.removeTask(userId,taskName).then(user.send("|"+replyDs.SuccessfulyDeletedTask(taskName)));
+        }else if(reaction.emoji.name == emojiOk){ 
+            dbJson.getTaskByName(userId,taskName).then((task)=>{ 
+                task.status = true; 
+                dbJson.removeTask(userId,taskName)
+                .then(()=>{ 
+                    dbJson.pullDBJsonTask(task);
+                    message.edit(message.embeds[0].setColor('17D100'))
+                });
+            }); 
+
+           
+
+        }
+    })  
 };
 
 async function startCollectorNavegation(message){
@@ -46,7 +94,7 @@ async function startCollectorNavegation(message){
             pageOneTask.forEach(x=>
                 {
                 embedFields.push(field ={
-                    name: x.name,
+                    name: `${x.status ? '🟩': dayjs(x.endDate).diff(new Date(), 'day') <= 7?'🟥':'🟨'} ${x.name}`,
                     value: `Start: **${new Date(x.startDate).getDay()}/${new Date(x.startDate).getMonth()}/${new Date(x.startDate).getFullYear()}** \n End: **${new Date(x.endDate).getDay()}/${new Date(x.endDate).getMonth()}/${new Date(x.endDate).getFullYear()}**`,
                     inline: true
                 })
@@ -75,7 +123,7 @@ async function startCollectorNavegation(message){
             pageOneTask.forEach(x=>
                 {
                 embedFields.push(field ={
-                    name: x.name,
+                    name: `${x.status ? '🟩': dayjs(x.endDate).diff(new Date(), 'day') <= 7?'🟥':'🟨'} ${x.name}`,
                     value: `Start: **${new Date(x.startDate).getDay()}/${new Date(x.startDate).getMonth()}/${new Date(x.startDate).getFullYear()}** \n End: **${new Date(x.endDate).getDay()}/${new Date(x.endDate).getMonth()}/${new Date(x.endDate).getFullYear()}**`,
                     inline: true
                 })
@@ -98,5 +146,6 @@ async function startCollectorNavegation(message){
 
 module.exports = {
     startCollectorNavegation,
-    startCollectorTask
+    startCollectorTask,
+    startCollectorTaskDm    
 };

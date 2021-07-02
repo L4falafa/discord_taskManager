@@ -15,6 +15,7 @@ module.exports = {
             author: "",
             name: "",
             description: "",
+            status: false,
             startDate: new Date(),
             endDate: new Date()
         };
@@ -32,7 +33,7 @@ module.exports = {
             let indexStart =  args[0].length+args[1].length+message.content.trim().split(/ +/,1)[0].length+3;
             task1.description = message.content.slice(indexStart);
             task1.endDate = dayjs().add(args[parseInt(1)], 'day').format('YYYY-MM-DD');
-
+          
         //pull the task to the json document
             dbJson.pullDBJsonTask(task1)
                 .then(()=>  {message.reply(""+replyDs.SuccessfulyAddTask(task1.name, task1.endDate))})

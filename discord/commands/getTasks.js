@@ -7,7 +7,6 @@ module.exports = {
     name: 'gettasks',
     description: 'reply to user hi' ,
     async execute(message, args, client) {
-
         if(args.length>0){message.reply(replyDs.BadSyntax(this.name));return;}
         let userTasks = [] 
         try {
@@ -29,7 +28,7 @@ module.exports = {
         pageOneTask.forEach(x=>
         {
             embedFields.push(field ={   
-                name: x.name,
+                name: `${x.status ? '🟩': dayjs(x.endDate).diff(new Date(), 'day') <= 7?'🟥':'🟨'} ${x.name}`,
                 value: `Start: **${dayjs(x.startDate).format('YYYY-MM-DD')}** \n End: **${dayjs(x.endDate).format('YYYY-MM-DD')}**`,
                 inline: true
             })
@@ -43,7 +42,7 @@ module.exports = {
             .setTitle('Tasks Manager');
         
         //send embed to channel
-        message.channel.send(exampleEmbed)             
+        message.channel.send(exampleEmbed);    
 
         // pagina * 6  = index inicio --- index final =  pagin + 6 > arr.lenght ?  indexf = pagina+6 : indexf = pagina + arr.lengh % 6
         

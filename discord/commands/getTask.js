@@ -17,10 +17,10 @@ module.exports = {
         catch (err) {
             message.reply(""+err);
             return;
-        }        
+        }
         //creates embed
         const exampleEmbed = new Discord.MessageEmbed()
-            .setColor('#4A90E2')
+            .setColor(`#${task.status == true ? '17D100': dayjs(task.endDate).diff(new Date(), 'day') <= 7?'BE0000':'CAD100'}`)
             .setAuthor(message.member.user.username,message.author.avatarURL())
             .setFooter(`${message.author.id}`)
             .addField('Name', task.name)
