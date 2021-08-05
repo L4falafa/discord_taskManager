@@ -1,16 +1,26 @@
 const fs = require('fs');
 const { resolve } = require('path');
 const { REPLServer } = require('repl');
+const { MongoClient } = require("mongodb");
 const path = '../discord/database';
 const errorMessage = require('../extras/replyMessages.js');
 const dayjs = require('dayjs');
 
+const dbName = "discord";
+const dbMongoPassword = "qYxyQuUIxSz1ZrHo";
+// Connection URI
+const uri = `mongodb+srv://falafel:${dbMongoPassword}@cluster0.4neez.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+// Create a new MongoClient
+
+const dbClient = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 async function fileExists (path) {  
     let myPromise = new Promise(function(result) {
         fs.access(path, (err) => {
-            if (err) {
-             
+            if (err) {             
               result(false);
             }
             result(true);
@@ -31,7 +41,20 @@ async function readFilePromise (name = "path"){
 
 //Parse json file content to objects
 async function getTasks (id){ 
+
+        // Connect the client to the server
+        try {
+            await dbClient.connect();
+        // Establish and verify connection
+        await dbClient.db("admin").command({ ping: 1 });
+        console.log("Connected successfully to server");
+        } catch (error) {
+            console.log(error);
+        }
+        
+
     return JSON.parse(await readFilePromise(id)); 
+
 };
 
 async function createJsonFile (name, data) {
