@@ -1,7 +1,5 @@
-const dbJson = require('../models/databaseJson.js');
-
 const replyDs = require('../extras/replyMessages.js');
-const config = require('../config.json');
+
 
 //module command to get first page of tasks and set the message to navigate trough
 module.exports = {

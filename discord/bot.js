@@ -6,8 +6,7 @@ const dbJson = require('../discord/models/databaseJson.js')
 const fs = require('fs')
 
 // import config file
-const config = require('./config.json');
-const { Console } = require('console');
+const config = require('./config.js');
 
 const collectorReaction = require('../discord/extras/emojiColector.js');
 const {warnTaskIsUnderAWeek} = require('./extras/dateSnipshot.js');
@@ -15,12 +14,13 @@ const { getTasks } = require('../discord/models/databaseJson.js');
 
 // creando el cliente de Discord
 const client = new Discord.Client();
+
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-
+    
     // set a new item in the Collection
     // with the key as the command name and the value as the exported module
     client.commands.set(command.help.name, command);
@@ -46,6 +46,8 @@ client.once('ready', () => {
 
 // listening messages
 client.on('message', message => {
+    // if the message is not a command or the author is a bot, return
+    console.log(message.content);
     if(message.author.id == client.user.id && message.embeds.length != 0)
     {
 

@@ -1,5 +1,4 @@
 const dbJson = require('../models/databaseJson.js');
-const Discord = require('discord.js');
 const replyDs = require('../extras/replyMessages.js')
 
 //module command to the remove of a task

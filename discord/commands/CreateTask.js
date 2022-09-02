@@ -1,7 +1,5 @@
 const dbJson = require('../models/databaseJson.js');
-const Discord = require('discord.js');
 const replyDs = require('../extras/replyMessages.js')
-const config = require('../config.json');
 const dayjs = require('dayjs')
 
 //module command to the creation of a new task and save them
